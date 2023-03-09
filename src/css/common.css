@@ -21,11 +21,4 @@ button {
     padding: 10px 40px;
     font-size: 18px;
     position: relative;
-    top: 50%;
-    left: 45%;
-}
-
-.buttons {
-    width: 100vw;
-    height: 100vh;
 }
