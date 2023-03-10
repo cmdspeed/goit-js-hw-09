@@ -3,6 +3,9 @@ import 'flatpickr/dist/flatpickr.min.css';
 import Notiflix from 'notiflix';
 
 let time;
+let timer;
+let dateNow;
+let selectedDates;
 const dateInput = document.getElementById('datetime-picker');
 const startBtn = document.querySelector('[data-start]');
 const daysEl = document.querySelector('[data-days]');
@@ -19,20 +22,36 @@ flatpickr('#datetime-picker', {
   minuteIncrement: 1,
   onClose(selectedDates) {
     const today = new Date();
-
+    selectedDates = selectedDates[0];
+    dateNow = Date.now();
     if (selectedDates[0] < today) {
       window.alert('Please choose a date in the future');
     } else {
       startBtn.removeAttribute('disabled');
-      time = convertMs(selectedDates[0] - Date.now());
-      daysEl.innerHTML = time.days;
-      hoursEl.innerHTML = time.hours;
-      minutesEl.innerHTML = time.minutes;
-      secondsEl.innerHTML = time.seconds;
-      console.log(time);
+
+      // time = convertMs(selectedDates - dateNow);
+      startBtn.setAttribute('Active', '');
+
+      startBtn.addEventListener('click', function () {
+        startBtn.setAttribute('disabled', '');
+        timer = setInterval(counter, 1000);
+      });
+
+      function counter() {
+        dateNow = Date.now();
+        countDown(selectedDates, dateNow);
+      }
     }
   },
 });
+
+function countDown(selectedDates, dateNow) {
+  time = convertMs(selectedDates - dateNow);
+  daysEl.innerHTML = time.days;
+  hoursEl.innerHTML = time.hours;
+  minutesEl.innerHTML = time.minutes;
+  secondsEl.innerHTML = time.seconds;
+}
 
 function convertMs(ms) {
   // Number of milliseconds per unit of time
