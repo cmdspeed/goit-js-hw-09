@@ -22,3 +22,20 @@ button {
     font-size: 18px;
     position: relative;
 }
+
+.timer {
+    display: flex;
+    gap: 15;
+    font-size: 20px;
+}
+
+.label {
+    display: flex;
+}
+
+.value {
+    font-weight: 500;
+    font-size: 30px;
+    display: table;
+    margin: 0 auto;
+}

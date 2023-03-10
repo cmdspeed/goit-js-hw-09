@@ -24,12 +24,12 @@ flatpickr('#datetime-picker', {
     const today = new Date();
     selectedDates = selectedDates[0];
     dateNow = Date.now();
-    if (selectedDates[0] < today) {
-      window.alert('Please choose a date in the future');
+    if (selectedDates < today) {
+      // window.alert('Please choose a date in the future');
+      Notiflix.Notify.failure('Please choose a date in the future');
     } else {
       startBtn.removeAttribute('disabled');
 
-      // time = convertMs(selectedDates - dateNow);
       startBtn.setAttribute('Active', '');
 
       startBtn.addEventListener('click', function () {
@@ -47,10 +47,23 @@ flatpickr('#datetime-picker', {
 
 function countDown(selectedDates, dateNow) {
   time = convertMs(selectedDates - dateNow);
-  daysEl.innerHTML = time.days;
-  hoursEl.innerHTML = time.hours;
-  minutesEl.innerHTML = time.minutes;
-  secondsEl.innerHTML = time.seconds;
+  if (
+    time.days >= 0 &&
+    time.hours >= 0 &&
+    time.minutes >= 0 &&
+    time.seconds >= 0
+  ) {
+    daysEl.innerHTML = addLeadingZero(time.days);
+    hoursEl.innerHTML = addLeadingZero(time.hours);
+    minutesEl.innerHTML = addLeadingZero(time.minutes);
+    secondsEl.innerHTML = addLeadingZero(time.seconds);
+  } else {
+    clearInterval(timer);
+  }
+}
+
+function addLeadingZero(value) {
+  return value.toString().padStart(2, '0');
 }
 
 function convertMs(ms) {
